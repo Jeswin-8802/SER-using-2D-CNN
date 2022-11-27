@@ -1,2 +1,6 @@
 /.ipynb_checkpoints
+/.vs
+
+# temporary
 data_path.csv
+
