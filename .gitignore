@@ -1,0 +1,9 @@
+/.ipynb_checkpoints
+/.vs
+/__pycache__
+
+# temporary
+data_path.csv
+features.csv
+finalized_model.sav
+lstm.pkl

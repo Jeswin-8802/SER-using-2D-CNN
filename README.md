@@ -1,5 +1,3 @@
-# major-project
 
-```
+# major-project
 2023
-```
