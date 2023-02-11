@@ -16,6 +16,8 @@ joblib = "*"
 nbdime = "*"
 ipython = "*"
 scikit-learn = "*"
+librosa = "*"
+plotext = "*"
 
 [dev-packages]
 ipykernel = "*"
