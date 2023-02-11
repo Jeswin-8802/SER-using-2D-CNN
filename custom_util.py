@@ -14,7 +14,7 @@ def get_audio(df, emotion):
 
 
 def get_audio_by_index(df, num):
-    path = df.Path[0]
+    path = df.Path[num]
     print(path)
     audio = Audio(path)
     display(audio)
@@ -51,6 +51,16 @@ def create_waveplot(df, emotion):
     plt.ylabel('Amplitude')
 
 
+def display_audio(data):
+    sample_rate = 22050  # default sampling rate passed
+    if (type(data) == ''.__class__ and data.endswith('.wav')):
+        data, sample_rate = librosa.load(data)
+    plt.figure(figsize=(14, 5))
+    librosa.display.waveshow(y=data, sr=sample_rate)
+    audio = Audio(data, rate=sample_rate)
+    display(audio)
+
+
 def create_spectrogram(df, emotion):
     data, sampling_rate = librosa.load(
         np.array(df.Path[df.Emotions == emotion])[0])
@@ -63,23 +73,28 @@ def create_spectrogram(df, emotion):
     plt.colorbar()
 
 
-def noise(data):
-    noise_amp = 0.035*np.random.uniform()*np.amax(data)
+def noise(path):
+    data, sample_rate = librosa.load(path)
+    noise_amp = 0.025*np.random.uniform()*np.amax(data)
     data = data + noise_amp*np.random.normal(size=data.shape[0])
     return data
 
 
-def stretch(data, rate=0.8):
+def stretch(path, rate=0.9):
+    data, sample_rate = librosa.load(path)
     return librosa.effects.time_stretch(data, rate)
 
 
-def shift(data):
+def shift(path):
+    data, sample_rate = librosa.load(path)
     shift_range = int(np.random.uniform(low=-5, high=5)*1000)
     return np.roll(data, shift_range)
 
 
-def pitch(data, sampling_rate, pitch_factor=0.7):
-    return librosa.effects.pitch_shift(data, sampling_rate, pitch_factor)
+def pitch(path, pitch_factor=0.9):
+    data, sample_rate = librosa.load(path)
+    return librosa.effects.pitch_shift(data, sample_rate, pitch_factor)
+
 
 def get_features(path):
     # duration and offset are used to take care of the no audio in start and the ending of each audio files as seen above.
@@ -90,54 +105,73 @@ def get_features(path):
     result = np.array(res1)
 
     # data with noise
-    noise_data = noise(data)
+    noise_data = noise(path)
     res2 = extract_features(noise_data, sample_rate)
     result = np.vstack((result, res2))  # stacking vertically
 
     # data with stretching and pitching
-    new_data = stretch(data)
-    data_stretch_pitch = pitch(new_data, sample_rate)
+    new_data = stretch(path)
+    data_stretch_pitch = pitch(path)
     res3 = extract_features(data_stretch_pitch, sample_rate)
     result = np.vstack((result, res3))  # stacking vertically
 
     return result
 
 
-def extract_features(data, sample_rate):
+def extract_features(data, sample_rate = 16825):
     # ZCR
     result = np.array([])
     zcr = np.mean(librosa.feature.zero_crossing_rate(y=data).T, axis=0)
     result = np.hstack((result, zcr))  # stacking horizontally
+    # print(zcr.shape)
 
     # Chroma_stft
     stft = np.abs(librosa.stft(data))
     chroma_stft = np.mean(librosa.feature.chroma_stft(
         S=stft, sr=sample_rate).T, axis=0)
     result = np.hstack((result, chroma_stft))  # stacking horizontally
+    # print(chroma_stft.shape)
 
-    # MFCC
-    mfcc = np.mean(librosa.feature.mfcc(y=data, sr=sample_rate).T, axis=0)
-    result = np.hstack((result, mfcc))  # stacking horizontally
+    # poly features
+    p10 = np.mean(librosa.feature.poly_features(S=stft, order=9).T, axis=0)
+    result = np.hstack((result, p10))  # stacking horizontally
+    # print(p10.shape)
+
+    # MFCC of order 3
+    mfcc = librosa.feature.mfcc(y=data, sr=sample_rate)
+    mfcc_delta2 = np.mean(librosa.feature.delta(mfcc, order=3).T, axis=0)
+    result = np.hstack((result, mfcc_delta2))  # stacking horizontally
+    # print(mfcc_delta2.shape)
 
     # Root Mean Square Value
     rms = np.mean(librosa.feature.rms(y=data).T, axis=0)
     result = np.hstack((result, rms))  # stacking horizontally
+    # print(rms.shape)
 
     # MelSpectogram
     mel = np.mean(librosa.feature.melspectrogram(
         y=data, sr=sample_rate).T, axis=0)
     result = np.hstack((result, mel))  # stacking horizontally
+    # print(mel.shape)
 
-    # # spectral centroid
-    # spectral_centroid = np.mean(librosa.feature.spectral_centroid(y=data, sr=sample_rate))
-    # result = np.hstack((result, spectral_centroid))
+    # spectral centroid
+    spectral_centroid = np.mean(librosa.feature.spectral_centroid(y=data, sr=sample_rate))
+    result = np.hstack((result, spectral_centroid)) # stacking horizontally
+    # print(spectral_centroid)
 
-    # # spectral rolloff
-    # spectral_rolloff = np.mean(ibrosa.feature.spectral_rolloff(data+0.01, sr=sample_rate))
-    # result = np.hstack((result, spectral_rolloff))
+    # spectral rolloff
+    spectral_rolloff = np.mean(librosa.feature.spectral_rolloff(data+0.01, sr=sample_rate))
+    result = np.hstack((result, spectral_rolloff)) # stacking horizontally
+    # print(spectral_rolloff)
+
+    # spectral contrast
+    contrast = np.mean(librosa.feature.spectral_contrast(S=stft, sr=sample_rate).T, axis=0)
+    result = np.hstack((result, contrast)) # stacking horizontally
+    # print(contrast.shape)
 
     # tonnetz
-    tonnetz = np.mean(librosa.feature.tonnetz(y=data, sr=sample_rate), axis=1)
-    result = np.hstack((result, tonnetz))
+    tonnetz = np.mean(librosa.feature.tonnetz(y=data, sr=sample_rate).T, axis=0)
+    result = np.hstack((result, tonnetz)) # stacking horizontally
+    # print(tonnetz.shape)
 
     return result
