@@ -5,5 +5,4 @@
 # temporary
 data_path.csv
 features.csv
-# finalized_model.sav
 # lstm.pkl
