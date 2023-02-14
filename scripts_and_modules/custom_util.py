@@ -118,7 +118,7 @@ def get_features(path):
     return result
 
 
-def extract_features(data, sample_rate = 16825):
+def extract_features_and_compress_to_1d(data, sample_rate = 16825):
     # ZCR
     result = np.array([])
     zcr = np.mean(librosa.feature.zero_crossing_rate(y=data).T, axis=0)
