@@ -1,8 +1,15 @@
 /.ipynb_checkpoints
 /.vs
-/__pycache__
+__pycache__/
 
 # temporary
 data_path.csv
 features.csv
-# lstm.pkl
+*.pkl
+*.npz
+
+# audio files
+crema/
+ravdess/
+surrey/
+tess/
