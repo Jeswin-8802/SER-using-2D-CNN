@@ -81,7 +81,7 @@ def getSelectedFeatures(features):
 
 
 if __name__ == '__main__':
-    model_file_location = os.path.join('data', 'lstm.pkl')
+    model_file_location = os.path.join(os.path.abspath('..'), 'data', 'lstm_v1.pkl')
     history = joblib.load(model_file_location, )
     global model
     model = history.model
