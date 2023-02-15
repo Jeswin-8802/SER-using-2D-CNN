@@ -45,7 +45,7 @@ def construct_model():
     model.add(Dense(64, activation='relu'))
     model.add(Dropout(0.2))
     model.add(Dense(32, activation='relu'))
-    model.add(Dense(6, activation='softmax'))
+    model.add(Dense(8, activation='softmax'))
     model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
     model.summary()
     return model
