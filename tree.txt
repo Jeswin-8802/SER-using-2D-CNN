@@ -1,0 +1,39 @@
+|   .gitignore
+|   Pipfile
+|   Pipfile.lock
+|   README.md
+|   
++---data
+|   |   accuracy_tracker.md
+|   |   data_path.csv
+|   |   data_x.npz
+|   |   data_y.npz
+|   |   lstm.pkl
+|   |   lstm_v1.pkl
+|   |   
+|   +---crema          
+|   +---ravdess       
+|   +---surrey     
+|   \---tess
+|                   
++---exploration_and_extraction
+|       exploratory_analysis.ipynb
+|       feature_extraction_v2.ipynb
+|       model_development_v1.ipynb
+|       model_development_v2.ipynb
+|       
++---lib
+|   |   custom_util.py
+|   |   util_for_2d_features.py
+|   |   __init__.py
+|   |   
+|   \---__pycache__
+|           custom_util.cpython-310.pyc
+|           util_for_2d_features.cpython-310.pyc
+|           
+\---scripts
+        create_data_path_csv.py
+        extract_features.py
+        model_test_v1.py
+        train_model.py
+        
