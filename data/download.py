@@ -1,4 +1,7 @@
+# Note: This file must be run inside the data/ dir
+
 import requests
+import os
 
 def download_file_from_google_drive(id, destination):
     URL = "https://drive.google.com/u/0/uc?id=1CjdErMEQ_aITEPOWqTO9o0S_cgtAg7sp&export=download"
@@ -31,5 +34,6 @@ def save_response_content(response, destination):
 
 if __name__ == "__main__":
     file_id = '1CjdErMEQ_aITEPOWqTO9o0S_cgtAg7sp'
-    destination = '/PROJECT/major-project/data/audio_files.zip'
+    destination = os.path.join(os.getcwd(), 'audio_files.zip')
     download_file_from_google_drive(file_id, destination)
+    print('file successfully downloaded into', destination)
