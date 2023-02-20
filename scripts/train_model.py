@@ -21,13 +21,13 @@ def split_and_expand_dim(X, Y):
     return x_train, y_train, x_test, y_test
 
 def get_data():
-    X, Y = [], []
-    for i in range(5):
-        dict_data = load(os.path.join(os.path.abspath('..'), 'data', 'data_x_' + str(part + 1) +  '.npz'))
-        X = X.append(dict_data['arr_0'])
-        dict_data = load(os.path.join(os.path.abspath('..'), 'data', 'data_y_' + str(part + 1) +  '.npz'))
-        Y = Y.append(dict_data['arr_0'])
-    print('X.shape, Y.shape ==> ', (X.shape, Y.shape))
+    X, Y = np.array([]), np.array([])
+    for i in range(3):
+        dict_data = load(os.path.join(os.path.abspath('..'), 'data', 'data_x_' + str(i + 1) +  '.npz'))
+        X = np.append(X, dict_data['arr_0'])
+        dict_data = load(os.path.join(os.path.abspath('..'), 'data', 'data_y_' + str(i + 1) +  '.npz'))
+        Y = np.append(Y, dict_data['arr_0'])
+    print('..', (X.shape, Y.shape))
     return X, Y
 
 def one_hot_encode(Y):
@@ -63,6 +63,7 @@ def fit_model(model, x_train, y_train, x_test, y_test):
 
 def main():
     X, Y = get_data()
+    print('X.shape, Y.shape ==> ', (X.shape, Y.shape))
     Y, encoder = one_hot_encode(Y)
     x_train, y_train, x_test, y_test = split_and_expand_dim(X, Y)
     model = construct_model()
