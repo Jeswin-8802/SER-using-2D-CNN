@@ -21,10 +21,12 @@ def split_and_expand_dim(X, Y):
     return x_train, y_train, x_test, y_test
 
 def get_data():
-    dict_data = load(os.path.join(os.path.abspath('..'), 'data', 'data_x.npz'))
-    X = dict_data['arr_0']
-    dict_data = load(os.path.join(os.path.abspath('..'), 'data', 'data_y.npz'))
-    Y = dict_data['arr_0']
+    X, Y = [], []
+    for i in range(5):
+        dict_data = load(os.path.join(os.path.abspath('..'), 'data', 'data_x_' + str(part + 1) +  '.npz'))
+        X = X.append(dict_data['arr_0'])
+        dict_data = load(os.path.join(os.path.abspath('..'), 'data', 'data_y_' + str(part + 1) +  '.npz'))
+        Y = Y.append(dict_data['arr_0'])
     print('X.shape, Y.shape ==> ', (X.shape, Y.shape))
     return X, Y
 
