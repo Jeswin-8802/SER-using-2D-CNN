@@ -4,7 +4,7 @@ import requests
 import os
 
 def download_file_from_google_drive(id, destination):
-    URL = "https://drive.google.com/u/0/uc?id=1CjdErMEQ_aITEPOWqTO9o0S_cgtAg7sp&export=download"
+    URL = "https://drive.google.com/u/0/uc?id=1vVlDGIuQnYZJCCjoxxqE1qYHibjcfA_f&export=download"
 
     session = requests.Session()
 
@@ -33,7 +33,7 @@ def save_response_content(response, destination):
                 f.write(chunk)
 
 if __name__ == "__main__":
-    file_id = '1CjdErMEQ_aITEPOWqTO9o0S_cgtAg7sp'
-    destination = os.path.join(os.getcwd(), 'audio_files.zip')
+    file_id = '1vVlDGIuQnYZJCCjoxxqE1qYHibjcfA_f'
+    destination = os.path.join(os.path.abspath('..'), 'data', 'audio_files.zip')
     download_file_from_google_drive(file_id, destination)
     print('file successfully downloaded into', destination)

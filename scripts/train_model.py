@@ -1,6 +1,5 @@
 import os
 import numpy as np
-from numpy import load
 import joblib
 from keras.callbacks import ReduceLROnPlateau
 from keras.models import Sequential
@@ -8,6 +7,9 @@ from keras.layers import Dense, Conv2D, MaxPooling2D, Flatten, Dropout
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.metrics import classification_report
 from sklearn.model_selection import train_test_split
+if os.path.abspath('../lib') not in sys.path:
+    sys.path.insert(0, os.path.abspath('../lib'))
+import util_for_2d_features as util
 import sys
 import warnings
 if not sys.warnoptions:
@@ -20,20 +22,6 @@ def split_and_expand_dim(X, Y):
     x_test = np.expand_dims(x_test, axis=3)
     print('(x_train.shape, y_train.shape), (x_test.shape, y_test.shape)', ((x_train.shape, y_train.shape), (x_test.shape, y_test.shape)))
     return x_train, y_train, x_test, y_test
-
-def get_data():
-    dict_data = load(os.path.join(os.path.abspath('..'), 'data', 'data_x_' + str(1) +  '.npz'))
-    X = dict_data['arr_0']
-    dict_data = load(os.path.join(os.path.abspath('..'), 'data', 'data_y_' + str(1) +  '.npz'))
-    Y = dict_data['arr_0']
-    print('..', (X.shape, Y.shape))
-    for i in range(1, 5):
-        dict_data = load(os.path.join(os.path.abspath('..'), 'data', 'data_x_' + str(i + 1) +  '.npz'))
-        X = np.concatenate((X, dict_data['arr_0']))
-        dict_data = load(os.path.join(os.path.abspath('..'), 'data', 'data_y_' + str(i + 1) +  '.npz'))
-        Y = np.append(Y, dict_data['arr_0'])
-        print('..', (X.shape, Y.shape))
-    return X, Y
 
 def one_hot_encode(Y):
     encoder = OneHotEncoder()
@@ -67,7 +55,7 @@ def fit_model(model, x_train, y_train, x_test, y_test):
     joblib.dump(history, model_store_path)
 
 def main():
-    X, Y = get_data()
+    X, Y = util.get_data()
     print('X.shape, Y.shape ==> ', (X.shape, Y.shape))
     Y, encoder = one_hot_encode(Y)
     x_train, y_train, x_test, y_test = split_and_expand_dim(X, Y)

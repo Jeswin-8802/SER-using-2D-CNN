@@ -3,7 +3,8 @@ import librosa.display
 import matplotlib.pyplot as plt
 import numpy as np
 import cv2
-import custom_util as util
+import os 
+from numpy import load
 
 
 
@@ -120,3 +121,18 @@ def get_all_features_with_variations(y, sr, result):
     result = np.vstack((result, [get_features(y, sr)]))
 
     return result
+
+
+def get_data():
+    dict_data = load(os.path.join(os.path.abspath('..'), 'data', 'data_x_' + str(1) +  '.npz'))
+    X = dict_data['arr_0']
+    dict_data = load(os.path.join(os.path.abspath('..'), 'data', 'data_y_' + str(1) +  '.npz'))
+    Y = dict_data['arr_0']
+    print('..', (X.shape, Y.shape))
+    for i in range(1, 5):
+        dict_data = load(os.path.join(os.path.abspath('..'), 'data', 'data_x_' + str(i + 1) +  '.npz'))
+        X = np.concatenate((X, dict_data['arr_0']))
+        dict_data = load(os.path.join(os.path.abspath('..'), 'data', 'data_y_' + str(i + 1) +  '.npz'))
+        Y = np.append(Y, dict_data['arr_0'])
+        print('..', (X.shape, Y.shape))
+    return X, Y
