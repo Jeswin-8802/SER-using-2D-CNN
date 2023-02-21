@@ -26,14 +26,13 @@
 |   |   custom_util.py
 |   |   util_for_2d_features.py
 |   |   __init__.py
-|   |   
-|   \---__pycache__
-|           custom_util.cpython-310.pyc
-|           util_for_2d_features.cpython-310.pyc
 |           
 \---scripts
         create_data_path_csv.py
         extract_features.py
         model_test_v1.py
+        model_test_v2.py
         train_model.py
+        download_audio_files.py
+        download_features.py
         
