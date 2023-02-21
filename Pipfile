@@ -19,6 +19,7 @@ scikit-learn = "*"
 librosa = "*"
 plotext = "*"
 opencv-python = "*"
+visualkeras = "*"
 
 [dev-packages]
 ipykernel = "*"
