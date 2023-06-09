@@ -31,7 +31,7 @@ For more detailed information on the uage of the features in feature extraction 
 
 ![Alt text](/images/image-3.png)
 
-<i> The concatenation of multiple features vertically results in a large 2D array which when cob=verted into an image gives </i>
+<i> The concatenation of multiple features vertically results in a large 2D array which when converted into an image gives </i>
 
 <br>
 
