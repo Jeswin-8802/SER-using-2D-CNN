@@ -29,7 +29,7 @@ For more detailed information on the uage of the features in feature extraction 
 
 <br>
 
-![Alt text](image-3.png)
+![Alt text](/images/image-3.png)
 
 <i> The concatenation of multiple features vertically results in a large 2D array which when cob=verted into an image gives </i>
 
@@ -77,7 +77,7 @@ _________________________________________________________________
 
 which when represented visually looks like:
 
-![Alt text](image-4.png)
+![Alt text](/images/image-4.png)
 
 <br>
 
@@ -88,7 +88,7 @@ It can be trained using the following python script: https://github.com/Nathanie
 
 The trained model has an accuracy of 80.99135756492615 % on test data.
 The accuracy and loss over the duration of training the model:
-![Alt text](image-5.png)
+![Alt text](/images/image-5.png)
 
 <br>
 
