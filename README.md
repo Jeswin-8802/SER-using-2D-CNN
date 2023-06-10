@@ -6,7 +6,6 @@ A ML model that is capable in predicting the type of human emotiom from speech u
 <br>
 
 ## <b> How it Works </b>
----
 
 A 2D CNN model works well with detecting patterns in images and we do the same here. An audio sample from which multiple audio and acoustic features will be extracted and converted into a large 2D array which corresponds to an image which can be fed to the model.
 
@@ -36,7 +35,6 @@ For more detailed information on the uage of the features in feature extraction 
 <br>
 
 ## <b> Model Constraction and Training </b>
----
 
 The constructed model has the following model summary:
 
@@ -155,4 +153,9 @@ weighted avg       0.81      0.81      0.81      8796
         download_features.py
 ```
 
-The entire project can be worked from start to finish within `\scripts`
+The entire project can be worked on from start to finish within `\scripts`
+by executing the files above in the following order:
+- download_audio_files.py
+- extract_features.py
+- ** The above 2 steps can be skipped by executing download_features.py (extracted feautes for all datasets)
+- train_model.py
